@@ -1,7 +1,7 @@
 {
-  "name": "dns-api",
+  "name": "merchant-usernames",
   "version": "1.0.0",
-  "description": "BIP353-compliant username API with DNS TXT record creation",
+  "description": "BIP353-compliant merchant username API with DNS TXT record creation",
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc",

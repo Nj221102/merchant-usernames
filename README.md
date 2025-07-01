@@ -1,6 +1,6 @@
-# BIP353 Username API
+# BIP353 Merchant Username API
 
-A production-ready TypeScript API for creating BIP353-compliant usernames with Lightning Network BOLT12 offers, featuring async processing, status tracking, and comprehensive error handling.
+A production-ready TypeScript API for creating BIP353-compliant merchant usernames with Lightning Network BOLT12 offers, featuring async processing, status tracking, and comprehensive error handling.
 
 ## Overview
 
@@ -22,7 +22,7 @@ Creates DNS TXT records via Cloudflare API for Lightning Address-style identifie
 ## Project Structure
 
 ```
-dns-api/
+merchant-usernames/
 ├── package.json              # Dependencies and scripts
 ├── tsconfig.json             # TypeScript configuration (ES2022)
 ├── .env                      # Environment variables (not in git)
@@ -300,7 +300,7 @@ failed (validation error)
 ```bash
 # 1. Clone and install
 git clone <repository>
-cd dns-api
+cd merchant-usernames
 npm install
 
 # 2. Setup environment

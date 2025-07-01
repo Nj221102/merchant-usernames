@@ -1,8 +1,8 @@
-# BIP353 Username API - Introduction
+# BIP353 Merchant Username API - Introduction
 
 ## Overview
 
-TypeScript API for creating BIP353-compliant usernames with Lightning Network BOLT12 offers. This service enables Lightning Address-style identifiers (username@domain.com) through automated DNS TXT record creation.
+TypeScript API for creating BIP353-compliant merchant usernames with Lightning Network BOLT12 offers. This service enables Lightning Address-style identifiers (username@domain.com) through automated DNS TXT record creation.
 
 ## Core Features
 
