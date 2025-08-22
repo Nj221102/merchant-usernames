@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test for Greenlight Backend</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #messages { border: 1px solid #ccc; height: 300px; overflow-y: scroll; padding: 10px; }
+        input, button { margin: 5px; padding: 5px; }
+        .message { margin: 5px 0; padding: 5px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Test for Greenlight Backend</h1>
+    
+    <div>
+        <label>JWT Token:</label><br>
+        <input type="text" id="token" value="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MGVlMDA1NC03NWJlLTQxNWMtYjhkMC1hZjYwMjU2ZDkzM2YiLCJleHAiOjE3NTU5NDQ4MTYsImlhdCI6MTc1NTg1ODQxNn0.jcD3Vmlflvu_CAUgG_7QYd25EUzC3KZ9e01iw98ClE4" style="width: 100%; margin: 5px 0;">
+        <button onclick="connect()">Connect</button>
+        <button onclick="disconnect()">Disconnect</button>
+    </div>
+    
+    <div>
+        <label>Status:</label>
+        <span id="status">Not connected</span>
+    </div>
+    
+    <div>
+        <label>Send Message:</label><br>
+        <input type="text" id="messageInput" placeholder="Enter JSON message">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+    
+    <div>
+        <h3>Messages:</h3>
+        <div id="messages"></div>
+    </div>
+    
+    <script>
+        let ws = null;
+        
+        function connect() {
+            const token = document.getElementById('token').value;
+            if (!token) {
+                alert('Please enter a JWT token');
+                return;
+            }
+            
+            ws = new WebSocket(`ws://localhost:8080/ws?token=${token}`);
+            
+            ws.onopen = function() {
+                document.getElementById('status').textContent = 'Connected';
+                addMessage('Connected to WebSocket');
+            };
+            
+            ws.onmessage = function(event) {
+                addMessage('Received: ' + event.data);
+            };
+            
+            ws.onclose = function() {
+                document.getElementById('status').textContent = 'Disconnected';
+                addMessage('WebSocket connection closed');
+            };
+            
+            ws.onerror = function(error) {
+                document.getElementById('status').textContent = 'Error';
+                addMessage('WebSocket error: ' + error);
+            };
+        }
+        
+        function disconnect() {
+            if (ws) {
+                ws.close();
+                ws = null;
+            }
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value;
+            
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                alert('WebSocket is not connected');
+                return;
+            }
+            
+            try {
+                ws.send(message);
+                addMessage('Sent: ' + message);
+                input.value = '';
+            } catch (error) {
+                addMessage('Error sending message: ' + error);
+            }
+        }
+        
+        function addMessage(message) {
+            const messages = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.className = 'message';
+            div.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
+</body>
+</html>
